@@ -285,7 +285,6 @@ void OnRunWithInjection(HWND hwnd)
         return;
     }
 
-
     SetDlgItemInt(hwnd, edt1, pi.dwProcessId, FALSE);
 
     WCHAR szDllFile[MAX_PATH];
