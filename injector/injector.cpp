@@ -66,7 +66,7 @@ BOOL DoInjectDLL(DWORD pid, LPCWSTR pszDllFile)
     AutoCloseHandle hProcess(OpenProcess(PROCESS_ALL_ACCESS, FALSE, pid));
     if (!hProcess)
     {
-        assert(0);
+        MessageBoxW(NULL, L"!OpenProcess", NULL, MB_ICONERROR);
         return FALSE;
     }
 
@@ -160,13 +160,15 @@ BOOL DoGetProcessModuleInfo(LPMODULEENTRY32W pme, DWORD pid, LPCWSTR pszModule)
 BOOL DoUninjectDLL(DWORD pid, LPCWSTR pszDllFile)
 {
     AutoCloseHandle hProcess(OpenProcess(PROCESS_ALL_ACCESS, FALSE, pid));
-    assert(hProcess);
     if (!hProcess)
+    {
+        MessageBoxW(NULL, L"!OpenProcess", NULL, MB_ICONERROR);
         return FALSE;
+    }
 
     if (!DoCheckBits(hProcess))
     {
-        assert(0);
+        MessageBoxW(NULL, L"!DoCheckBits(hProcess)", NULL, MB_ICONERROR);
         return FALSE;
     }
 
@@ -182,7 +184,7 @@ BOOL DoUninjectDLL(DWORD pid, LPCWSTR pszDllFile)
     FARPROC pLdrUnloadDll = GetProcAddress(hNTDLL, "LdrUnloadDll");
     if (!pLdrUnloadDll)
     {
-        assert(0);
+        MessageBoxW(NULL, L"!pLdrUnloadDll", NULL, MB_ICONERROR);
         return FALSE;
     }
 
@@ -190,7 +192,7 @@ BOOL DoUninjectDLL(DWORD pid, LPCWSTR pszDllFile)
         (LPTHREAD_START_ROUTINE)pLdrUnloadDll, hModule, 0, NULL));
     if (!hThread)
     {
-        assert(0);
+        MessageBoxW(NULL, L"!CreateRemoteThread", NULL, MB_ICONERROR);
         return FALSE;
     }
 
